@@ -4,7 +4,7 @@ import (
 	"io"
 	"log"
 	"net"
-	pb "test/grpc_test/storage"
+	pb "github.com/kentwangyq/grpc_test/helloworld/storage"
 
 	"google.golang.org/grpc"
 
@@ -36,13 +36,12 @@ func (s *storeServer) GetData(user *pb.User, stream pb.Storage_GetDataServer) er
 }
 
 func (s *storeServer) InsertData(stream pb.Storage_InsertDataServer) error {
-	var user *pb.User
+	var msgCount int32
 	for {
 		d, err := stream.Recv()
 		if err == io.EOF {
 			return stream.SendAndClose(&pb.DataSummary{
-				User:         user,
-				MessageCount: int32(len(s.Datas[user.Id])),
+				MessageCount: msgCount,
 			})
 
 		}
@@ -50,6 +49,7 @@ func (s *storeServer) InsertData(stream pb.Storage_InsertDataServer) error {
 			return err
 		}
 		s.Datas[d.User.Id] = append(s.Datas[d.User.Id], d)
+		msgCount++
 	}
 }
 

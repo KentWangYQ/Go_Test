@@ -13,7 +13,6 @@ message Data{
 }
 
 message DataSummary{
-    User user=1;
     int32 messageCount=2;
 }
 

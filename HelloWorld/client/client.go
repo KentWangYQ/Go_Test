@@ -3,7 +3,7 @@ package main
 import (
 	"io"
 	"log"
-	pb "test/grpc_test/storage"
+	pb "github.com/kentwangyq/grpc_test/helloworld/storage"
 
 	"google.golang.org/grpc"
 
