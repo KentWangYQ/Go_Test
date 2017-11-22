@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package storage;
+
+message User{
+    int32 id=1;
+    string name=2;
+}
+
+message Data{
+    User user=1;
+    string msg=2;
+}
+
+message DataSummary{
+    User user=1;
+    int32 messageCount=2;
+}
+
+service Storage{
+    rpc GetFirstData(User) returns (Data){};
+    rpc GetData(User) returns (stream Data){};
+    rpc InsertData(stream Data) returns (DataSummary){};
+    rpc InsertAndShowAllData(stream Data) returns (stream Data){};
+}
